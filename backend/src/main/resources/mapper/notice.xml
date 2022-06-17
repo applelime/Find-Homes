@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pearldonut.findhomes.mapper.NoticeMapper">
+	<select id="selectAll" resultType="NoticeDto">
+		select *from notice order by num desc;
+	</select>
+	
+	<select id="selectOne" parameterType="int" resultType="NoticeDto">
+		select *from notice where num=#{num}
+	</select>
+	
+	<insert id="createNotice" parameterType="NoticeDto">
+		insert into notice(user_id,title,content)
+		values(#{userId},#{title},#{content})
+	</insert>
+	
+	<update id="updateNotice" parameterType="NoticeDto">
+		update notice
+		set title=#{title}, content=#{content}, last_modify_date=now()
+		where num=#{num}
+	</update>
+	
+	<update id="updateViewCount" parameterType="String">
+		update notice
+		set count=count+1
+		where num=#{num}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="String" >
+		delete from notice where num = #{num}
+	</delete>
+</mapper>

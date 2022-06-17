@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pearldonut.findhomes.mapper.HouseMapMapper">
+	<select id="getHouseList" parameterType="map" resultType="houseInfoDto">
+		select * 
+		from house_info
+		where dong_code = #{dongCode}
+		<if test='!year.equals("0")'>
+		and build_year <![CDATA[ >= ]]> 2022 - #{year}
+		</if>
+		<if test='!type.equals("all")'>
+		and house_type = #{type}
+		</if>
+	</select>
+	
+	<select id="getDealList" parameterType="map" resultType="houseDealDto">
+		select * 
+		from house_deal
+		where sigungu = #{sigungu}
+		and house_name = #{houseName}
+	</select>
+	
+	<select id="search" parameterType="string"  resultType="houseInfoDto">
+		select *
+		from house_info h
+		<if test='condition!=null and condition.equals("dong") and val !=null' >
+			where dongName like CONCAT('%',#{val},'%')
+		</if>
+	 
+		<if test='condition!=null and condition.equals("name") and val !=null' >
+			where aptName like CONCAT('%',#{val},'%')
+			order by aptName
+		</if>
+	</select>	
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pearldonut.findhomes.mapper.CommentMapper">
+	<select id="selectAll" resultType="CommentDto">
+		select * from comment  where board_num =#{boardNum}  order by num asc;
+	</select>
+	
+	<insert id="createComment" parameterType="CommentDto">
+		insert into comment(user_id,content,board_num)
+		values(#{userId},#{content},#{boardNum})
+	</insert>
+	
+	<update id="updateComment" parameterType="CommentDto">
+		update comment
+		set content=#{content}, last_modify_date=now()
+		where num=#{num}
+	</update>
+	
+	<update id="updateViewCount" parameterType="string">
+		update comment
+		set like_count=like_count+1
+		where num=#{num}
+	</update>
+	
+	<delete id="deleteComment" parameterType="string" >
+		delete from comment where num = #{num}
+	</delete>
+</mapper>

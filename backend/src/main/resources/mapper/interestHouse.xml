@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pearldonut.findhomes.mapper.InterestHouseMapper">
+	<!-- 아파트 리스트 -->
+	<select id="getAptInterestList" parameterType="String" resultType="map">
+		select  i.num, h.house_id, h.sigungu, h.road_name, h.house_name, h.house_type,h.lng,h.lat,h.dong_code,h.build_year 
+		from house_info h join interest_house i on h.house_id = i.house_id
+		where h.house_type="apt" and  i.user_id=#{userid};
+	</select>
+	
+	<!-- 오피스 리스트 -->
+	<select id="getOfficeInterestList" parameterType="String" resultType="map">
+		select  i.num, h.house_id, h.sigungu, h.road_name, h.house_name, h.house_type,h.lng,h.lat,h.dong_code,h.build_year 
+		from house_info h join interest_house i on h.house_id = i.house_id
+		where h.house_type="officetel" and  i.user_id=#{userid};
+	</select>
+	
+	<!-- 관심 매물 삭제 -->
+	<delete id="deleteInterest" parameterType="int">
+		delete from interest_house
+		where num=#{num};
+	</delete>
+	
+	
+	<!-- 관심 매물 등록 -->
+	<insert id="addInterest" parameterType="InterestHouseDto">
+		insert into interest_house(user_id, house_id)
+		values(#{userid},#{houseid});
+	</insert>
+</mapper>
